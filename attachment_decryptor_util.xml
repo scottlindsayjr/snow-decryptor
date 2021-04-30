@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unload unload_date="2021-04-30 20:21:32">
+<sys_processor action="INSERT_OR_UPDATE">
+<active>true</active>
+<class_name/>
+<description/>
+<interactive>false</interactive>
+<name>attachment_decryptor_util</name>
+<parameters/>
+<params_endpoint/>
+<path>attachment_decryptor_util</path>
+<path_endpoint/>
+<require_csrf>false</require_csrf>
+<roles/>
+<script><![CDATA[(function process(g_request, g_response, g_processor) {
+	try{
+		var attachmentSysID = g_request.getParameter("attachmentSysId");
+		var attachment = new GlideSysAttachment();
+		var attachmentContentStream = attachment.getContentStream(attachmentSysID);
+		var fileName = 'test.txt';
+
+		g_response.addHeader('Content-Type', 'attachment;filename=' + fileName);
+		var reader = new GlideTextReader(attachmentContentStream);
+		var ln = ' ';
+		while((ln = reader.readLine()) != null) {
+			g_processor.writeOutput('text/plain',ln);
+		}
+
+	} catch(error){
+		gs.error("exception:"+error);
+		g_processor.writeOutput('text/html',error);
+	}
+})(g_request, g_response, g_processor);]]></script>
+<sys_class_name>sys_processor</sys_class_name>
+<sys_created_by>test_user_1</sys_created_by>
+<sys_created_on>2021-04-30 20:07:52</sys_created_on>
+<sys_id>4b1ad1de1bff60106da25283604bcb61</sys_id>
+<sys_mod_count>6</sys_mod_count>
+<sys_name>attachment_decryptor_util</sys_name>
+<sys_package display_value="Global" source="global">global</sys_package>
+<sys_policy/>
+<sys_scope display_value="Global">global</sys_scope>
+<sys_update_name>sys_processor_4b1ad1de1bff60106da25283604bcb61</sys_update_name>
+<sys_updated_by>test_user_1</sys_updated_by>
+<sys_updated_on>2021-04-30 20:13:58</sys_updated_on>
+<type>script</type>
+</sys_processor>
+</unload>
